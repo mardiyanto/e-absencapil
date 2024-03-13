@@ -1,5 +1,5 @@
 <?php
-$koneksi = new mysqli("localhost", "root", "", "db_absenkhanza");
+include 'koneksi.php';
 if($_GET['aksi']=='datang'){ 
     if ($koneksi->connect_error) {
         die("Koneksi gagal: " . $koneksi->connect_error);

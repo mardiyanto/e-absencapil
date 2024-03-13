@@ -1,214 +1,116 @@
-
-  <head>
-
-    <link rel="stylesheet" href="../sys/bootstrap/plugins/morris/morris.css">
-<link rel="stylesheet" href="../sys/bootstrap/ionicons.min.css">
-  </head>
-  <?php
-// Query SQL untuk menghitung total suara sah
-$querySuaraSah = "SELECT SUM(suara_sah) AS total_suara_sah FROM suara";
-
-// Eksekusi query
-$resultSuaraSah = mysqli_query($koneksi, $querySuaraSah);
-$rowSuaraSah = mysqli_fetch_assoc($resultSuaraSah);
-$totalSuaraSah = $rowSuaraSah['total_suara_sah'];
-
-// Query SQL untuk menghitung total suara tidak sah
-$querySuaraTidakSah = "SELECT SUM(suara_rusak) AS total_suara_tidak_sah FROM suara";
-
-// Eksekusi query
-$resultSuaraTidakSah = mysqli_query($koneksi, $querySuaraTidakSah);
-$rowSuaraTidakSah = mysqli_fetch_assoc($resultSuaraTidakSah);
-$totalSuaraTidakSah = $rowSuaraTidakSah['total_suara_tidak_sah'];
-
-
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    </div>
+<?php // Query SQL untuk menghitung total baris dalam tabel pegawai
+$query = "SELECT COUNT(*) as total FROM pegawai";
+// Jalankan query
+$result = $koneksi->query($query);
+$row = $result->fetch_assoc();
+ // Total baris dalam tabel pegawai
+$total_pegawai = $row['total'];
 ?>
-  <div class="row">
-            <div class="col-md-12">
-              <div class="box box-solid">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Progress Bars Different Sizes</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  <p>TOTAL SUARA SAH <code>: <?=$totalSuaraSah?></code></p>
-                  <div class="progress active">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-                      <span class="sr-only"><?=$totalSuaraSah?> SUARA</span>
+<?php
+// Mendapatkan tanggal hari ini
+$today = date("Y-m-d");
+// Query SQL untuk menghitung total presensi datang berdasarkan tanggal absensi datang hari ini
+$querydatang = "SELECT COUNT(*) as total FROM presensi_datang WHERE tanggal_absensi_datang = '$today' AND status_absensi_datang = 'datang'";
+// Jalankan query
+$result = $koneksi->query($querydatang);
+$rowdatang = $result->fetch_assoc();
+
+$total_presensi_datang = $rowdatang['total'];
+// Query SQL untuk menghitung total presensi pulang berdasarkan tanggal absensi pulang hari ini
+$querypulang= "SELECT COUNT(*) as total FROM presensi_pulang WHERE tanggal_absensi_pulang = '$today' AND status_absensi_pulang = 'pulang'";
+// Jalankan query
+$result = $koneksi->query($querypulang);
+$rowpulang = $result->fetch_assoc();
+ // Total presensi pulang berdasarkan tanggal absensi hari ini
+$total_presensi_pulang = $rowpulang['total'];
+$total_presensi = $total_presensi_datang + $total_presensi_pulang;
+$total = $total_presensi -$total_presensi_datang;
+?>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                               TOTAL KARIAWAN</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo"$total_pegawai" ?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                ABSENSI DATANG HARI INI</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo"$total_presensi_datang" ?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">ABSESI PULANG HARI INI
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo"$total_presensi_pulang" ?></div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                TOTAL ABSENSI HARI INI</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo"$total" ?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <p>TOTAL SUARA TIDAK SAH <code>:<?=$totalSuaraTidakSah?></code></p>
-                  <div class="progress  active">
-                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
-                      <span class="sr-only"><?=$totalSuaraTidakSah?> SUARA</span>
-                    </div>
-                  </div>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col (left) -->
-          </div><!-- /.row -->
-  <div class="row">
- <?php
- // Query SQL dengan JOIN dan GROUP BY
-$sql = "SELECT p.id_paslon, p.nama_paslon, SUM(s.suara_sah) AS total_suara_sah, SUM(s.suara_rusak) AS total_suara_rusak
-FROM paslon p
-JOIN suara s ON p.id_paslon = s.id_paslon
-GROUP BY p.id_paslon";
-
-$result = $koneksi->query($sql);
-
-if ($result->num_rows > 0) { 
-// Menampilkan data hasil GROUP BY
-while ($row = $result->fetch_assoc()) { ?>
-        <div class="col-md-4">
-              <!-- Widget: user widget style 1 -->
-              <div class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-yellow">
-                  <div class="widget-user-image">
-                    <img class="img-circle" src="../sys/pileg.jpg" alt="User Avatar">
-                  </div><!-- /.widget-user-image -->
-                  <h3 class="widget-user-username"><?=$row["nama_paslon"]?></h3>
-                  <h5 class="widget-user-desc"><?php echo"$k_k[nama_app]";?> <?php echo"$k_k[alias]";?></h5>
-                </div>
-                <div class="box-footer no-padding">
-                  <ul class="nav nav-stacked">
-                    <li><a href="#">Total Suara Sah <span class="pull-right badge bg-blue"><?=$row["total_suara_sah"]?></span></a></li>
-                    <li><a href="#">Total Suara Tidak Sah <span class="pull-right badge bg-aqua"><?=$row["total_suara_rusak"]?></span></a></li>
-
-                  </ul>
-                </div>
-              </div><!-- /.widget-user -->
-            </div><!-- /.col -->
-            <?php }
-} else { ?>
- <div class="col-md-12">
-              <div class="box box-success">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Removable</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div><!-- /.box-tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  DATA PASLON BELUM DI INPUT DI SISTEM
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col -->
-<?php } ?>
-  </div>
 
     
-          <div class="row">
-            <div class="col-md-12">
-              <!-- AREA CHART -->
-                <div class="box box-success">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Grafik data paslon</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div>
-                <div class="box-body chart-responsive">
-                  <div class="chart" id="bar-chart" style="height: 300px;"></div>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col (LEFT) -->
-            <div class="col-md-12">
-			 <!-- DONUT CHART -->
-              <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Grafik data paslon</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div>
-                <div class="box-body chart-responsive">
-                  <div class="chart" id="sales-chart" style="height: 300px; position: relative;"></div>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col (RIGHT) -->
-          </div><!-- /.row -->
-
-
-    <!-- jQuery 2.1.4 -->
-    <script src="../sys/bootstrap/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-   
-    <!-- Morris.js charts -->
-    <script src="../sys/bootstrap/raphael-min.js"></script>
-    <script src="../sys/bootstrap/plugins/morris/morris.min.js"></script>
-    <!-- FastClick -->
-
-    <script>
-      
-      $(function () {
-        "use strict";
-        //DONUT CHART
-  
-        var donutData = <?php // Query SQL dengan JOIN dan GROUP BY
-$sql = "SELECT p.id_paslon,p.nama_paslon, SUM(s.suara_sah) AS total_suara_sah
-        FROM paslon p
-        JOIN suara s ON p.id_paslon = s.id_paslon
-        GROUP BY p.id_paslon";
-
-$result = $koneksi->query($sql);
-
-$data = array();
-while ($row = $result->fetch_assoc()) {
-    $data[] = array(
-        "label" =>  $row["nama_paslon"],
-        "value" => $row["total_suara_sah"]
-    );
-}
-
-echo json_encode($data);
-?>;
-
-var donut = new Morris.Donut({
-    element: 'sales-chart',
-    resize: true,
-    colors: ["#3c8dbc", "#f56954", "#00a65a"],
-    data: donutData,
-    hideHover: 'auto'
-});
-        //BAR CHART
-        var barData = <?php
-// Query SQL dengan JOIN dan GROUP BY
-$sql = "SELECT p.id_paslon,p.nama_paslon, SUM(s.suara_sah) AS total_suara_sah, SUM(s.suara_rusak) AS total_suara_rusak
-        FROM paslon p
-        JOIN suara s ON p.id_paslon = s.id_paslon
-        GROUP BY p.id_paslon";
-
-$result = $koneksi->query($sql);
-
-$data = array();
-while ($row = $result->fetch_assoc()) {
-    $data[] = array(
-        "y" => $row["nama_paslon"],
-        "a" => $row["total_suara_sah"],
-        "b" => $row["total_suara_rusak"]
-    );
-}
-
-echo json_encode($data);
-?>;
-
-var bar = new Morris.Bar({
-    element: 'bar-chart',
-    resize: true,
-    data: barData,
-    barColors: ['#00a65a', '#f56954'],
-    xkey: 'y',
-    ykeys: ['a', 'b'],
-    labels: ['Suara Sah', 'Suara Rusak'],
-    hideHover: 'auto'
-});
-
-
-     
-      
-      });
-    </script>
-  </body>
-</html>

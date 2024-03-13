@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 12 Mar 2024 pada 01.07
--- Versi Server: 10.1.25-MariaDB
--- PHP Version: 5.6.31
+-- Generation Time: Mar 13, 2024 at 09:57 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pegawai`
+-- Table structure for table `pegawai`
 --
 
 CREATE TABLE `pegawai` (
@@ -40,40 +39,66 @@ CREATE TABLE `pegawai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pegawai`
+-- Dumping data for table `pegawai`
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `kode_pegawai`, `nama_pegawai`, `status_pegawai`, `nik`, `tgl_lahir`, `jenis_kelamin`, `alamat`) VALUES
-(1, 'KR001', 'MARDIYANTO', 'P3K', '1820706109100034', '1991-06-10', 'Laki-Laki', '');
+(1, 'KR001', 'MARDIYANTO', 'P3K', '1820706109100034', '1991-06-10', 'Laki-Laki', ''),
+(3, 'KR002', 'WIDIANTO', 'P3K', '88927972', '0000-00-00', 'Laki-Laki', ''),
+(4, 'KR004', 'SUHARJO', 'PNS', '7167866', '1991-12-16', 'Laki-Laki', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `presensi`
+-- Table structure for table `presensi_datang`
 --
 
-CREATE TABLE `presensi` (
-  `id_presensi` int(100) NOT NULL,
-  `gambar` varchar(100) NOT NULL,
-  `jam_absensi` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `jam_datang` varchar(100) NOT NULL,
-  `jam_pulang` varchar(100) NOT NULL,
+CREATE TABLE `presensi_datang` (
+  `id_presensi_datang` int(100) NOT NULL,
+  `gambar_datang` varchar(100) NOT NULL,
+  `tanggal_absensi_datang` date NOT NULL,
+  `jam_absensi_datang` varchar(100) NOT NULL,
   `id_pegawai` varchar(100) NOT NULL,
-  `status_absensi` varchar(100) NOT NULL
+  `status_absensi_datang` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `presensi`
+-- Dumping data for table `presensi_datang`
 --
 
-INSERT INTO `presensi` (`id_presensi`, `gambar`, `jam_absensi`, `jam_datang`, `jam_pulang`, `id_pegawai`, `status_absensi`) VALUES
-(1, 'absen_1_1710169566.jpg', '2024-03-11 15:06:06', '22:06:06', '', '1', 'datang'),
-(2, 'absen_1_1710191451.jpg', '2024-03-11 21:10:51', '04:10:51', '', '1', 'datang');
+INSERT INTO `presensi_datang` (`id_presensi_datang`, `gambar_datang`, `tanggal_absensi_datang`, `jam_absensi_datang`, `id_pegawai`, `status_absensi_datang`) VALUES
+(1, 'absen_3_1710313000.jpg', '2024-03-13', '13:56:40', '3', 'datang'),
+(2, 'absen_1_1710313044.jpg', '2024-03-13', '13:57:24', '1', 'datang'),
+(3, 'absen_4_1710315170.jpg', '2024-03-13', '14:32:50', '4', 'datang');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `profil`
+-- Table structure for table `presensi_pulang`
+--
+
+CREATE TABLE `presensi_pulang` (
+  `id_presensi_pulang` int(100) NOT NULL,
+  `gambar_pulang` varchar(100) NOT NULL,
+  `tanggal_absensi_pulang` date NOT NULL,
+  `jam_absensi_pulang` varchar(100) NOT NULL,
+  `id_pegawai` varchar(100) NOT NULL,
+  `status_absensi_pulang` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `presensi_pulang`
+--
+
+INSERT INTO `presensi_pulang` (`id_presensi_pulang`, `gambar_pulang`, `tanggal_absensi_pulang`, `jam_absensi_pulang`, `id_pegawai`, `status_absensi_pulang`) VALUES
+(1, 'absen_3_1710313027.jpg', '2024-03-13', '13:57:07', '3', 'pulang'),
+(3, 'absen_1_1710314227.jpg', '2024-03-13', '14:17:07', '1', 'pulang'),
+(4, 'absen_4_1710318323.jpg', '2024-03-13', '15:25:23', '4', 'pulang');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `profil`
 --
 
 CREATE TABLE `profil` (
@@ -89,7 +114,7 @@ CREATE TABLE `profil` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `profil`
+-- Dumping data for table `profil`
 --
 
 INSERT INTO `profil` (`id_profil`, `nama_app`, `tahun`, `nama`, `alias`, `alamat`, `isi`, `gambar`, `akabest`) VALUES
@@ -99,7 +124,7 @@ INSERT INTO `profil` (`id_profil`, `nama_app`, `tahun`, `nama`, `alias`, `alamat
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -111,7 +136,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_nama`, `user_username`, `user_password`, `user_foto`) VALUES
@@ -131,10 +156,16 @@ ALTER TABLE `pegawai`
   ADD PRIMARY KEY (`id_pegawai`);
 
 --
--- Indexes for table `presensi`
+-- Indexes for table `presensi_datang`
 --
-ALTER TABLE `presensi`
-  ADD PRIMARY KEY (`id_presensi`);
+ALTER TABLE `presensi_datang`
+  ADD PRIMARY KEY (`id_presensi_datang`);
+
+--
+-- Indexes for table `presensi_pulang`
+--
+ALTER TABLE `presensi_pulang`
+  ADD PRIMARY KEY (`id_presensi_pulang`);
 
 --
 -- Indexes for table `profil`
@@ -156,22 +187,32 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pegawai` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `presensi`
+-- AUTO_INCREMENT for table `presensi_datang`
 --
-ALTER TABLE `presensi`
-  MODIFY `id_presensi` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `presensi_datang`
+  MODIFY `id_presensi_datang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `presensi_pulang`
+--
+ALTER TABLE `presensi_pulang`
+  MODIFY `id_presensi_pulang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `profil`
 --
 ALTER TABLE `profil`
   MODIFY `id_profil` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

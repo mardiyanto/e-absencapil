@@ -194,6 +194,7 @@ elseif($_GET['aksi']=='presensi'){
                                         <thead>
                                             <tr>
                                                 <th>nama</th>
+                                                <th>Tanggal Absensi</th>
                                                 <th>Jam Datang</th>
                                                 <th>Jam Pulang</th>
                                                 <th>aksi</th>		  
@@ -202,14 +203,15 @@ elseif($_GET['aksi']=='presensi'){
                         ";
                 
     $no=0;
-    $tebaru=mysqli_query($koneksi," SELECT * FROM presensi,pegawai WHERE presensi.id_pegawai=pegawai.id_pegawai ");
+    $tebaru=mysqli_query($koneksi," SELECT * FROM pegawai,presensi_datang,presensi_pulang WHERE presensi_datang.id_pegawai=pegawai.id_pegawai and presensi_pulang.id_pegawai=pegawai.id_pegawai");
     while ($t=mysqli_fetch_array($tebaru)){	
     $no++;
                                         echo"<tbody>
                                             <tr>
                                                 <td>$t[nama_pegawai]</td>
-                                                <td>$t[jam_datang]</td>
-                                                <td>$t[jam_pulang]</td>
+                                                <td>$t[tanggal_absensi_datang]</td>
+                                                <td>$t[jam_absensi_datang]</td>
+                                                <td>$t[jam_absensi_pulang]</td>
                                 <td><div class='btn-group'>
                           <button type='button' class='btn btn-info'>aksi</button>
                           <button type='button' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>

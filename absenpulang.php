@@ -74,21 +74,32 @@
 $tx=mysqli_fetch_array($tebaru);?>
 <?php // Mendapatkan ID pegawai dari parameter GET
 $id_pegawai = $_GET['id_pegawai'];
-// Melakukan kueri SQL untuk memeriksa apakah pegawai tersebut sudah absen hari ini
-$sql = mysqli_query($koneksi, "SELECT * FROM presensi_datang WHERE id_pegawai=$id_pegawai AND status_absensi_datang='datang' AND tanggal_absensi_datang=CURDATE()");
-$t = mysqli_fetch_array($sql);?>
+// Melakukan kueri SQL untuk memeriksa apakah pegawai tersebut sudah absen pulang hari ini
+$sql = mysqli_query($koneksi, "SELECT * FROM presensi_pulang WHERE id_pegawai=$id_pegawai AND status_absensi_pulang='pulang' AND tanggal_absensi_pulang=CURDATE()");
+$t = mysqli_fetch_array($sql);
+// Melakukan kueri SQL untuk memeriksa apakah pegawai tersebut sudah absen datang hari ini
+$sqlt = mysqli_query($koneksi, "SELECT * FROM presensi_datang WHERE id_pegawai=$id_pegawai AND status_absensi_datang='datang' AND tanggal_absensi_datang=CURDATE()");
+$tp = mysqli_fetch_array($sqlt);?>
                 <div class="card-body">
                     <form method='post' action='#' enctype='multipart/form-data'>
                         <div class='form-group'>
                             <label>Kode Kariawan</label>
                             <input type='text' class='form-control' value='<?php echo"$tx[kode_pegawai]"; ?>' name='kode_pegawai' id='kode_pegawai' /><br>
-                            <?php if ($t) {
-    echo "<button type='button'  class='btn btn-primary'>anda sudah absen datang hari ini </button>";
-} else {
-    echo "<div class='modal-footer'>
-    <button type='button' onClick='take_snapshot()' class='btn btn-primary'>Capture and Save </button>
-</div>";
-} ?>
+                            <?php if ($tp) {
+                                        if ($t) {
+                                            echo "<button type='button'  class='btn btn-primary'>anda sudah absen pulang hari ini </button>";
+                                        } else {
+                                            echo "<div class='modal-footer'>
+                                            <button type='button' onClick='take_snapshot()' class='btn btn-primary'>Capture and Save </button>
+                                        </div>";
+                                        }
+                                } else {
+                                    echo "<div class='modal-footer'>
+                                    <a href='absendatang.php?id_pegawai=$tx[id_pegawai]' class='btn btn-primary'>absenpulang</a>
+                                </div>";
+                                } ?>
+                            
+
                             
                         </div>
                     </form>
@@ -158,7 +169,7 @@ $t = mysqli_fetch_array($sql);?>
 
             // Send the image data and ID Pegawai to the server using AJAX
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'save_image.php?aksi=datang', true);
+            xhr.open('POST', 'save_image.php?aksi=pulang', true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {

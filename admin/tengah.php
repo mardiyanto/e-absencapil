@@ -204,16 +204,17 @@ elseif($_GET['aksi']=='presensi'){
                         ";
                 
     $no=0;
-    $tebaru=mysqli_query($koneksi," SELECT * FROM presensi_datang,pegawai,presensi_pulang WHERE presensi_datang.id_pegawai=pegawai.id_pegawai 
-    and presensi_pulang.id_pegawai=pegawai.id_pegawai");
+    $tebaru=mysqli_query($koneksi," SELECT * FROM pegawai,presensi_datang WHERE presensi_datang.id_pegawai=pegawai.id_pegawai");
     while ($t=mysqli_fetch_array($tebaru)){	
+        $sql=mysqli_query($koneksi," SELECT * FROM presensi_pulang WHERE id_pegawai=$t[id_pegawai] ");
+        $tx=mysqli_fetch_array($sql);    
     $no++;
                                         echo"<tbody>
                                             <tr>
                                                 <td>$t[nama_pegawai]</td>
                                                 <td>$t[tanggal_absensi_datang]</td>
                                                 <td>$t[jam_absensi_datang]</td>
-                                                <td>$t[jam_absensi_pulang]</td>
+                                                <td>$tx[jam_absensi_pulang]</td>
                                                 <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal'>AKSI</button></td>
                                             </tr>
                                         </tbody>

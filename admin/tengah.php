@@ -17,6 +17,35 @@ echo"
 ";
 include "grafik.php";
 }
+elseif($_GET['aksi']=='map'){
+    $tebaru=mysqli_query($koneksi," SELECT * FROM map WHERE id_map='1'");
+    $t=mysqli_fetch_array($tebaru);
+    echo"  <div class='row'>
+    <div class='col-lg-12'>
+                                <!-- Circle Buttons -->
+                                <div class='card shadow mb-4'>
+                                    <div class='card-header py-3'>
+                                        <h6 class='m-0 font-weight-bold text-primary'><a href='api.php' target='_blank'>DATA MAP</a></h6>
+                                    </div>
+                                    <div class='card-body'>
+                                    <form role='form' method='post' action='edit.php?aksi=proseseditmap&id_map=$t[id_map]'>
+                                    <div class='form-group'>
+                                    <label>Latitude</label>
+                                    <input type='text' class='form-control' value='$t[latitude]' name='latitude'/><br>
+                                    <label>Longitude</label>
+                                    <input type='text' class='form-control' value='$t[longitude]' name='longitude'/><br>
+                                    
+                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                    <button type='submit' class='btn btn-primary'>Save </button>
+                                </div>
+            </form>  
+                                    </div>
+                                </div>
+    
+    </div>
+            </div> 
+    ";
+}
 elseif($_GET['aksi']=='pegawai'){
 
     $i = date("Y");

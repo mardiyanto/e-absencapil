@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2024 at 09:57 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.4.24
+-- Generation Time: 22 Mar 2024 pada 00.56
+-- Versi Server: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,7 +25,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pegawai`
+-- Struktur dari tabel `map`
+--
+
+CREATE TABLE `map` (
+  `id_map` int(100) NOT NULL,
+  `latitude` varchar(100) NOT NULL,
+  `longitude` varchar(100) NOT NULL,
+  `status` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `map`
+--
+
+INSERT INTO `map` (`id_map`, `latitude`, `longitude`, `status`) VALUES
+(1, '-5.349745', '104.965183', 'aktif');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pegawai`
 --
 
 CREATE TABLE `pegawai` (
@@ -39,7 +60,7 @@ CREATE TABLE `pegawai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pegawai`
+-- Dumping data untuk tabel `pegawai`
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `kode_pegawai`, `nama_pegawai`, `status_pegawai`, `nik`, `tgl_lahir`, `jenis_kelamin`, `alamat`) VALUES
@@ -50,7 +71,7 @@ INSERT INTO `pegawai` (`id_pegawai`, `kode_pegawai`, `nama_pegawai`, `status_peg
 -- --------------------------------------------------------
 
 --
--- Table structure for table `presensi_datang`
+-- Struktur dari tabel `presensi_datang`
 --
 
 CREATE TABLE `presensi_datang` (
@@ -63,18 +84,16 @@ CREATE TABLE `presensi_datang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `presensi_datang`
+-- Dumping data untuk tabel `presensi_datang`
 --
 
 INSERT INTO `presensi_datang` (`id_presensi_datang`, `gambar_datang`, `tanggal_absensi_datang`, `jam_absensi_datang`, `id_pegawai`, `status_absensi_datang`) VALUES
-(1, 'absen_3_1710313000.jpg', '2024-03-13', '13:56:40', '3', 'datang'),
-(2, 'absen_1_1710313044.jpg', '2024-03-13', '13:57:24', '1', 'datang'),
-(3, 'absen_4_1710315170.jpg', '2024-03-13', '14:32:50', '4', 'datang');
+(1, 'absen_1_1711062622.jpg', '2024-03-22', '06:10:22', '1', 'datang');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `presensi_pulang`
+-- Struktur dari tabel `presensi_pulang`
 --
 
 CREATE TABLE `presensi_pulang` (
@@ -86,19 +105,10 @@ CREATE TABLE `presensi_pulang` (
   `status_absensi_pulang` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `presensi_pulang`
---
-
-INSERT INTO `presensi_pulang` (`id_presensi_pulang`, `gambar_pulang`, `tanggal_absensi_pulang`, `jam_absensi_pulang`, `id_pegawai`, `status_absensi_pulang`) VALUES
-(1, 'absen_3_1710313027.jpg', '2024-03-13', '13:57:07', '3', 'pulang'),
-(3, 'absen_1_1710314227.jpg', '2024-03-13', '14:17:07', '1', 'pulang'),
-(4, 'absen_4_1710318323.jpg', '2024-03-13', '15:25:23', '4', 'pulang');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profil`
+-- Struktur dari tabel `profil`
 --
 
 CREATE TABLE `profil` (
@@ -114,7 +124,7 @@ CREATE TABLE `profil` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `profil`
+-- Dumping data untuk tabel `profil`
 --
 
 INSERT INTO `profil` (`id_profil`, `nama_app`, `tahun`, `nama`, `alias`, `alamat`, `isi`, `gambar`, `akabest`) VALUES
@@ -124,7 +134,7 @@ INSERT INTO `profil` (`id_profil`, `nama_app`, `tahun`, `nama`, `alias`, `alamat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -136,7 +146,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_nama`, `user_username`, `user_password`, `user_foto`) VALUES
@@ -148,6 +158,12 @@ INSERT INTO `user` (`user_id`, `user_nama`, `user_username`, `user_password`, `u
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `map`
+--
+ALTER TABLE `map`
+  ADD PRIMARY KEY (`id_map`);
 
 --
 -- Indexes for table `pegawai`
@@ -184,35 +200,35 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `map`
+--
+ALTER TABLE `map`
+  MODIFY `id_map` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
   MODIFY `id_pegawai` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `presensi_datang`
 --
 ALTER TABLE `presensi_datang`
-  MODIFY `id_presensi_datang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `id_presensi_datang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `presensi_pulang`
 --
 ALTER TABLE `presensi_pulang`
-  MODIFY `id_presensi_pulang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `id_presensi_pulang` int(100) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `profil`
 --
 ALTER TABLE `profil`
   MODIFY `id_profil` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-COMMIT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

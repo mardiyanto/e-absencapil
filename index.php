@@ -23,7 +23,12 @@
 
     <!-- Custom styles for this template-->
     <link href="sys/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -103,7 +108,6 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="sys/vendor/jquery/jquery.min.js"></script>
     <script src="sys/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -113,15 +117,90 @@
 
     <!-- Custom scripts for all pages-->
     <script src="sys/js/sb-admin-2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+        // Fungsi untuk menghitung jarak antara dua titik koordinat menggunakan Haversine formula
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            var earthRadius = 6371; // Radius bumi dalam kilometer
 
-    <!-- Page level plugins -->
-    <script src="sys/vendor/chart.js/Chart.min.js"></script>
+            var dLat = degToRad(lat2 - lat1);
+            var dLon = degToRad(lon2 - lon1);
 
-    <!-- Page level custom scripts -->
-    <script src="sys/js/demo/chart-area-demo.js"></script>
-    <script src="sys/js/demo/chart-pie-demo.js"></script>
-    <script src="sys/js/demo/chart-bar-demo.js"></script>
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var distance = earthRadius * c;
+
+            return distance * 1000; // Mengonversi jarak menjadi meter
+        }
+
+        // Fungsi untuk mengubah derajat menjadi radian
+        function degToRad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        // Lokasi kantor (latitude dan longitude)
+        var officeLatitude = <?php echo"$m[latitude]";?>;
+        var officeLongitude = <?php echo"$m[longitude]";?>;
+
+        // Inisialisasi peta Leaflet
+        var map = L.map('map').setView([officeLatitude, officeLongitude], 15);
+
+        // Menambahkan peta tile menggunakan Leaflet providers
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+        // Menambahkan marker untuk lokasi kantor
+        var officeMarker = L.marker([officeLatitude, officeLongitude]).addTo(map);
+
+        // Membuat lingkaran dengan radius 100 meter
+        var radius = L.circle([officeLatitude, officeLongitude], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.3,
+            radius: 100
+        }).addTo(map);
+
+        // Memeriksa jarak saat mendapatkan lokasi pengguna
+        function getLocation() {
+            var statusElement = document.getElementById("status");
+            var frmPresensi = document.getElementById("frmPresensi");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var userLatitude = position.coords.latitude;
+                    var userLongitude = position.coords.longitude;
+
+                    var distance = calculateDistance(officeLatitude, officeLongitude, userLatitude, userLongitude);
+
+                    if (distance <= 100) {
+                        statusElement.textContent = "Anda berada dalam radius 100 meter dari kantor.";
+                        frmPresensi.style.display = "block";
+                    } else {
+                        statusElement.textContent = "Anda harus berada dalam radius 100 meter dari kantor untuk mengakses absensi.";
+                        frmPresensi.style.display = "none";
+                    }
+                }, function (error) {
+                    if (error.code === error.PERMISSION_DENIED) {
+                        statusElement.textContent = "Anda tidak memberikan izin untuk mengakses lokasi.";
+                    } else {
+                        statusElement.textContent = "Terjadi kesalahan dalam mendapatkan lokasi.";
+                    }
+                    frmPresensi.style.display = "none";
+                });
+            } else {
+                statusElement.textContent = "Geolokasi tidak didukung oleh browser Anda.";
+                frmPresensi.style.display = "none";
+            }
+        }
+
+        // Memanggil fungsi getLocation saat halaman dimuat
+        window.addEventListener("DOMContentLoaded", getLocation);
+    </script>
 </body>
 
 </html>

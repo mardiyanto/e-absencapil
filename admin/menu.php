@@ -70,6 +70,7 @@
                         <a class="collapse-item" href="index.php?aksi=pegawai">Pegawai</a>
                         <a class="collapse-item" href="index.php?aksi=presensi">Absensi</a>
                         <a class="collapse-item" href="index.php?aksi=rekappresensi">Rekap Absensi</a>
+                        <a class="collapse-item" href="index.php?aksi=map">Map</a>
                     </div>
                 </div>
             </li>

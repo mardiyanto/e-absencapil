@@ -1,5 +1,6 @@
 <?php
 include 'koneksi.php';
+date_default_timezone_set('Asia/Jakarta');
 if($_GET['aksi']=='datang'){ 
     if ($koneksi->connect_error) {
         die("Koneksi gagal: " . $koneksi->connect_error);

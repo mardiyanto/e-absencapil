@@ -11,9 +11,9 @@ mysqli_query($koneksi,"UPDATE pemilih SET nama_pemilih='$_POST[nama_pemilih]',ni
 kelas='$_POST[kelas]' WHERE id_pemilih='$_GET[id_pemilih]'");
 echo "<script>window.location=('index.php?aksi=pemilih')</script>";
 }
-elseif($_GET['aksi']=='proseseditsuara'){
-	mysqli_query($koneksi,"UPDATE suara SET suara_sah='$_POST[suara_sah]' WHERE id_suara='$_GET[id_suara]'");
-echo "<script>window.location=('index.php?aksi=inputdata')</script>";
+elseif($_GET['aksi']=='proseseditmap'){
+	mysqli_query($koneksi,"UPDATE map SET latitude='$_POST[latitude]',longitude='$_POST[longitude]' WHERE id_map='$_GET[id_map]'");
+echo "<script>window.location=('index.php?aksi=map')</script>";
 }
 elseif($_GET['aksi']=='proseseditprofilpaslon'){
 	mysqli_query($koneksi,"UPDATE paslon SET tgl_lahir='$_POST[tgl_lahir]',tmp_lahir='$_POST[tmp_lahir]',visi='$_POST[visi]',misi='$_POST[misi]',pendidikan='$_POST[pendidikan]',prestasi='$_POST[prestasi]' WHERE id_paslon='$_GET[id_paslon]'");

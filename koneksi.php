@@ -11,4 +11,6 @@ $kontak_kami=mysqli_query($koneksi,"SELECT * FROM profil WHERE id_profil ='1'");
 $k_k=mysqli_fetch_array($kontak_kami);
 $kadis=mysqli_query($koneksi,"SELECT * FROM profil WHERE id_profil ='2'");
 $tt=mysqli_fetch_array($kadis); 
+$map=mysqli_query($koneksi,"SELECT * FROM map WHERE id_map ='1'");
+$m=mysqli_fetch_array($map); 
 ?>

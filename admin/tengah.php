@@ -478,16 +478,15 @@ elseif($_GET['aksi']=='presensipulang'){
                                                 </tr>
                                             </tbody>
                                             <!-- Modal edit-->
-                                            <div class='modal fade' id='uiModal$t[id_pemilih]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                                            <div class='modal fade' id='uiModal$t[id_pegawai]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
                                                     <div class='modal-dialog'>
                                                         <div class='modal-content'>
                                                             <div class='modal-header'>
                                                                 <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                                                                <h4 class='modal-title' id='H3'>Edit Data $t[nama_pemilih]</h4>
+                                                                <h4 class='modal-title' id='H3'>Edit Data $t[nama_pegawai]</h4>
                                                             </div>
                                                                     <div class='box-body'>
-                                                                        <form action='edit.php?aksi=proseseditpemilih&id_pemilih=$t[id_pemilih]' method='post' enctype='multipart/form-data'>
-                                                                        <div class='form-group'>
+                                                                     <div class='form-group'>
                                                                             <label>Nama</label>
                                                                             <input type='text' class='form-control' name='nama_pemilih' value='$t[nama_pemilih]' required='required' placeholder='Masukkan Nama ..'>
                                                                         </div>
@@ -572,6 +571,18 @@ elseif($_GET['aksi']=='rekappresensi'){
                 }, 5000); // Hilangkan setelah 5 detik
               </script>";
     }     echo"<div class='row'>
+    <div class='col-lg-4'>
+    <form id='form1'  method='post' action='index.php?aksi=detailrekap'>
+    <div class='form-group'>
+    <label>Tanggal Akhir</label>
+    <input type='date' class='form-control'  name='tgl_awal'/>
+    <label>Tanggal Akhir</label>
+    <input type='date' class='form-control' name='tgl_akhir'/>
+            <div class='modal-footer'>
+                                                <button type='submit' class='btn btn-primary'>Filter </button>
+                                            </div> </div>
+        </form>
+    </div>
     <div class='col-lg-12'>
         <div class='panel panel-default'>
             <div class='panel-heading'>Rekap Presensi Setiap Pegawai Bulan Ini
@@ -599,49 +610,171 @@ elseif($_GET['aksi']=='rekappresensi'){
         // Jalankan query
         $result = $koneksi->query($query);
         while ($t = $result->fetch_assoc()) {
+            $sql=mysqli_query($koneksi," SELECT * FROM presensi_datang WHERE id_pegawai=$t[id_pegawai] ");
+            $tx=mysqli_fetch_array($sql);   
                         echo"<tbody>
                             <tr>
                                 <td>$t[nama_pegawai]</td>
                                 <td>$t[bulan_tahun]</td>
                                 <td>$t[total_presensi]</td>
-                                <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal'>AKSI</button></td>
+                                <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal$t[id_pegawai]'>AKSI</button></td>
                             </tr>
                         </tbody>
                         <!-- Modal edit-->
-                        <div class='modal fade' id='uiModal$t[id_pemilih]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                        
+                        <div class='modal fade' id='uiModal$t[id_pegawai]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
                                 <div class='modal-dialog'>
                                     <div class='modal-content'>
                                         <div class='modal-header'>
                                             <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                                            <h4 class='modal-title' id='H3'>Edit Data $t[nama_pemilih]</h4>
+                        
                                         </div>
                                                 <div class='box-body'>
-                                                    <form action='edit.php?aksi=proseseditpemilih&id_pemilih=$t[id_pemilih]' method='post' enctype='multipart/form-data'>
-                                                    <div class='form-group'>
-                                                        <label>Nama</label>
-                                                        <input type='text' class='form-control' name='nama_pemilih' value='$t[nama_pemilih]' required='required' placeholder='Masukkan Nama ..'>
+                                                <div class='row'>
+                                                <div class='col-md-6'>
+                                                    <div class='card'>
+                                                        <div class='card-body'>
+                                                            <h5 class='card-title'>Nama Pegawai</h5>
+                                                            <p class='card-text'>$t[nama_pegawai]</p>
+                                                        </div>
                                                     </div>
-                                                    <div class='form-group'>
-                                                        <label>nisn</label>
-                                                        <input type='text' class='form-control' name='nisn' value='$t[nisn]' required='required' placeholder='Masukkan nisn ..'>
+                                                </div>
+                                                <div class='col-md-6'>
+                                                    <div class='card'>
+                                                        <div class='card-body'>
+                                                            <h5 class='card-title'>Jam Presensi</h5>
+                                                            <p class='card-text'>$tx[jam_absensi_datang]</p>
+                                                        </div>
                                                     </div>
-                                                    <div class='form-group'>
-                                                        <label>No hp</label>
-                                                        <input type='text' class='form-control' name='no_hp' value='$t[no_hp]' required='required'  placeholder='Masukkan no hp..'>
+                                                </div>
+                                                <div class='col-md-12'>
+                                                    <div class='card'>
+                                                        <div class='card-body'>
+                                                            <h5 class='card-title'>Gambar</h5>
+                                                            <p class='card-text'><img src='../upload/$tx[gambar_datang]' alt='Gambar Modal' class='img-fluid'></p>
+                                                        </div>
                                                     </div>
-                                                    <div class='form-group'>
-                                                        <label>Kelas</label>
-                                                        <input type='text' class='form-control' name='kelas' value='$t[kelas]' required='required' placeholder='Masukkan kelas..'>
-                                                    </div>
-                                                    <div class='form-group'>
-                                                        <input type='submit' class='btn btn-sm btn-primary' value='Simpan'>
-                                                    </div>
-                                                    </form>
+                                                </div>
+                                            </div>
+                                            
                                                 </div>
                                     </div>
                                 </div>
                         </div>                    
                         
+                        ";
+}
+                    echo"</table>
+                </div>
+            </div>
+        </div>
+    </div>
+   </div>";			
+}
+
+elseif($_GET['aksi']=='detailrekap'){
+    $tgl_awal = date("d F Y", strtotime($_POST['tgl_awal']));
+    $tgl_akhir = date("d F Y", strtotime($_POST['tgl_akhir'])); 
+    // Gabungkan dalam satu string
+    $periode = $tgl_awal . " - " . $tgl_akhir;
+    echo"
+    <div class='col-lg-12'>
+    <div class='row'>
+    <div class='col-lg-4'>
+    <form id='form1'  method='post' action='index.php?aksi=detailrekap'>
+    <div class='form-group'>
+    <label>Tanggal awal</label>
+    <input type='date' class='form-control' value='$_POST[tgl_awal]' name='tgl_awal'/>
+    <label>Tanggal Akhir</label>
+    <input type='date' class='form-control' value='$_POST[tgl_akhir]' name='tgl_akhir'/>
+            <div class='modal-footer'>
+                                                <button type='submit' class='btn btn-primary'>Filter </button>
+                                            </div> </div>
+        </form>
+    </div>
+    <div class='col-lg-12'>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>Rekap Presensi Setiap Pegawai tanggal $periode
+            </div>
+            <div class='panel-body'>	
+                   <div class='table-responsive'>		
+                   <table class='table table-bordered' id='dataTable'>
+                        <thead>
+                            <tr>
+                                <th>nama</th>
+                                <th>Bulan/Tahun</th>
+                                <th>Total Presensi</th>
+                                <th>aksi</th>		  
+                            </tr>
+                        </thead>
+        ";
+        $tgl_awal = "$_POST[tgl_awal]";
+        $tgl_akhir = "$_POST[tgl_akhir]";
+        
+        // Query SQL untuk membuat rekap presensi setiap pegawai dalam rentang tanggal tertentu
+        $query = "SELECT pg.id_pegawai, pg.nama_pegawai, DATE_FORMAT(pd.tanggal_absensi_datang, '%Y-%m') AS bulan_tahun,
+                         COUNT(pd.id_presensi_datang) as total_presensi
+                  FROM pegawai pg
+                  LEFT JOIN presensi_datang pd ON pg.id_pegawai = pd.id_pegawai
+                  WHERE pd.tanggal_absensi_datang BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                  GROUP BY pg.id_pegawai, DATE_FORMAT(pd.tanggal_absensi_datang, '%Y-%m')";
+        
+        // Jalankan query
+        $result = $koneksi->query($query);
+        
+        while ($t = $result->fetch_assoc()) {
+            $sql=mysqli_query($koneksi," SELECT * FROM presensi_datang WHERE id_pegawai=$t[id_pegawai] ");
+            $tx=mysqli_fetch_array($sql);
+                        echo"<tbody>
+                            <tr>
+                                <td>$t[nama_pegawai]</td>
+                                <td>$t[bulan_tahun]</td>
+                                <td>$t[total_presensi]</td>
+                                <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal$t[id_pegawai]'>AKSI</button></td>
+                                </tr>
+                            </tbody>
+                            <!-- Modal edit-->
+                            
+                            <div class='modal fade' id='uiModal$t[id_pegawai]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                                    <div class='modal-dialog'>
+                                        <div class='modal-content'>
+                                            <div class='modal-header'>
+                                                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                            
+                                            </div>
+                                                    <div class='box-body'>
+                                                    <div class='row'>
+                                                    <div class='col-md-6'>
+                                                        <div class='card'>
+                                                            <div class='card-body'>
+                                                                <h5 class='card-title'>Nama Pegawai</h5>
+                                                                <p class='card-text'>$t[nama_pegawai]</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <div class='card'>
+                                                            <div class='card-body'>
+                                                                <h5 class='card-title'>Jam Presensi</h5>
+                                                                <p class='card-text'>$tx[jam_absensi_datang]</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-md-12'>
+                                                        <div class='card'>
+                                                            <div class='card-body'>
+                                                                <h5 class='card-title'>Gambar</h5>
+                                                                <p class='card-text'><img src='../upload/$tx[gambar_datang]' alt='Gambar Modal' class='img-fluid'></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                    </div>
+                                        </div>
+                                    </div>
+                            </div>                    
+                            
                         ";
 }
                     echo"</table>

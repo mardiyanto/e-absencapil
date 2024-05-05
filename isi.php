@@ -14,15 +14,21 @@ elseif($_GET['aksi']=='datang'){
               <div class="card-body">
                   <div class="text-center"> 
                      <button type="button" class="btn btn-outline-success btn-lg"><?php echo "Sekarang Jam " . date("h:i:sa");?></button>
-                      <p id="status"></p> </div>
+                      <!-- deteksi lokasi <p id="status"></p> </div>
                         <form method='post' action='index.php?aksi=prosesdatang' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
                                 <div class='modal-footer'><button type="submit" class="btn btn-primary">Submit</button></div>
                           </div>   
+                        </form> -->
+                        <form method='post' action='index.php?aksi=prosesdatang' enctype='multipart/form-data' >
+                          <div class='form-group'>
+                              <label>Kode Kariawan</label>
+                               <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
+                                <div class='modal-footer'><button type="submit" class="btn btn-primary">Submit</button></div>
+                          </div>   
                         </form>
-                  
               </div>
       </div>
     </div>
@@ -66,8 +72,15 @@ elseif($_GET['aksi']=='pulang'){
               <div class="card-body">
                   <div class="text-center"> 
                      <button type="button" class="btn btn-outline-success btn-lg"><?php echo "Sekarang Jam " . date("h:i:sa");?></button>
-                      <p id="status"></p></div>
-                        <form method='post' action='index.php?aksi=prosespulang' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
+                      <!-- <p id="status"></p></div>
+                        <form method='post' action='index.php?aksi=prosespulang1' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
+                          <div class='form-group'>
+                              <label>Kode Kariawan</label>
+                               <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
+                                <div class='modal-footer'><button type="submit" class="btn btn-primary">Submit</button></div>
+                          </div>   
+                        </form> -->
+                        <form method='post' action='index.php?aksi=prosespulang' enctype='multipart/form-data' >
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>

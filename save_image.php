@@ -30,8 +30,8 @@ if($_GET['aksi']=='datang'){
         file_put_contents($pathFile, $gambarBinary);
     
         // Simpan path gambar ke dalam database
-        $queryPresensi = "INSERT INTO presensi_datang (id_pegawai, gambar_datang,jam_absensi_datang, tanggal_absensi_datang,status_absensi_datang) 
-        VALUES ('$idPegawai', '$namaFile', '$j', '$today', 'datang')";
+        $queryPresensi = "INSERT INTO presensi_datang (id_pegawai, gambar_datang,jam_absensi_datang, tanggal_absensi_datang,status_absensi_datang,status_absensi,status_hadir,latitude,longitude) 
+        VALUES ('$idPegawai', '$namaFile', '$j', '$today', 'datang','$_POST[status_absensi]','$_POST[status_hadir]','$_POST[latitude]','$_POST[longitude]')";
         if ($koneksi->query($queryPresensi) === TRUE) {
             echo "Gambar berhasil disimpan di folder dan path gambar tersimpan di database.";
         } else {
@@ -71,8 +71,8 @@ if ($resultCekPegawai->num_rows > 0) {
     file_put_contents($pathFile, $gambarBinary);
 
     // Simpan path gambar ke dalam database
-    $queryPresensi = "INSERT INTO presensi_pulang (id_pegawai, gambar_pulang,jam_absensi_pulang, tanggal_absensi_pulang,status_absensi_pulang) 
-    VALUES ('$idPegawai', '$namaFile', '$j', '$today', 'pulang')";
+    $queryPresensi = "INSERT INTO presensi_pulang (id_pegawai, gambar_pulang,jam_absensi_pulang, tanggal_absensi_pulang,status_absensi_pulang,latitude,longitude) 
+    VALUES ('$idPegawai', '$namaFile', '$j', '$today', 'pulang','$_POST[latitude]','$_POST[longitude]')";
     if ($koneksi->query($queryPresensi) === TRUE) {
         echo "Gambar berhasil disimpan di folder dan path gambar tersimpan di database.";
     } else {

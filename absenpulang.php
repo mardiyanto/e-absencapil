@@ -20,6 +20,27 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="sys/css/sb-admin-2.min.css" rel="stylesheet">
+                <!-- map api start -->
+                <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css"/>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+        <!-- map api end --> 
 </head>
 
 <body class="bg-gradient-primary">
@@ -84,7 +105,12 @@ $tp = mysqli_fetch_array($sqlt);?>
                     <form method='post' action='#' enctype='multipart/form-data'>
                         <div class='form-group'>
                             <label>Kode Kariawan</label>
-                            <input type='text' class='form-control' value='<?php echo"$tx[kode_pegawai]"; ?>' name='kode_pegawai' id='kode_pegawai' /><br>
+                            <input type='text' class='form-control' value='<?php echo"$tx[kode_pegawai]"; ?>' name='kode_pegawai' id='kode_pegawai'  readonly/><br>
+                            
+                            <label>Lokasi anda </label>
+                            <input type='text' class='form-control' id='latitude' name='latitude' readonly/>
+                            <label>Lokasi anda </label>
+                            <input type='text' class='form-control' id='longitude' name='longitude' readonly/>
                             <?php if ($tp) {
                                         if ($t) {
                                             echo "<button type='button'  class='btn btn-primary'>anda sudah absen pulang hari ini </button>";
@@ -166,6 +192,8 @@ $tp = mysqli_fetch_array($sqlt);?>
                 }, 3000);
             // Get the ID Pegawai from the input field
             var kode_pegawai = document.getElementById('kode_pegawai').value;
+            var latitude = document.getElementById('latitude').value;
+            var longitude = document.getElementById('longitude').value;
 
             // Send the image data and ID Pegawai to the server using AJAX
             var xhr = new XMLHttpRequest();
@@ -179,9 +207,52 @@ $tp = mysqli_fetch_array($sqlt);?>
             };
 
             // Encode the data URI and ID Pegawai and send it to the server
-            xhr.send('image=' + encodeURIComponent(data_uri) + '&kode_pegawai=' + encodeURIComponent(kode_pegawai));
+            xhr.send('image=' + encodeURIComponent(data_uri) + 
+         '&kode_pegawai=' + encodeURIComponent(kode_pegawai) + 
+         '&latitude=' + encodeURIComponent(latitude) +
+         '&longitude=' + encodeURIComponent(longitude));
         });
     }
 	</script>
+     <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiaXRyc2thcnRpbmkiLCJhIjoiY2xpd2lqbDMwMzlrMjNsbGd3c3dnY3Q1ZSJ9.eFCToH4luPNjPxsxM6_kkg';
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            const map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v12',
+              center: [longitude, latitude],
+              zoom: 12,
+            });
+
+            const marker = new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+
+            const geocoder = new MapboxGeocoder({
+              accessToken: mapboxgl.accessToken,
+              mapboxgl: mapboxgl,
+            });
+
+            map.addControl(geocoder);
+
+            geocoder.on('result', (event) => {
+              map.getSource('single-point').setData(event.result.geometry);
+            });
+          },
+          (error) => {
+            console.log('Error getting current location:', error);
+          }
+        );
+      } else {
+        console.log('Geolocation is not supported by this browser.');
+      }
+    </script>
+        <!-- map api edb -->
 </body>
 </html>

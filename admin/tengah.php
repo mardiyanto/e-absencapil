@@ -227,6 +227,7 @@ elseif($_GET['aksi']=='presensi'){
                                                 <th>Tanggal Absensi</th>
                                                 <th>Jam Datang</th>
                                                 <th>Jam Pulang</th>
+                                                <th>status</th>
                                                 <th>aksi</th>		  
                                             </tr>
                                         </thead>
@@ -243,7 +244,9 @@ elseif($_GET['aksi']=='presensi'){
                                                 <td>$t[nama_pegawai]</td>
                                                 <td>$t[tanggal_absensi_datang]</td>
                                                 <td>$t[jam_absensi_datang]</td>
+                                                
                                                 <td>$tx[jam_absensi_pulang]</td>
+                                                <td>$t[status_hadir]</td>
                                                 <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal'>AKSI</button></td>
                                             </tr>
                                         </tbody>
@@ -253,30 +256,28 @@ elseif($_GET['aksi']=='presensi'){
                                                     <div class='modal-content'>
                                                         <div class='modal-header'>
                                                             <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                                                            <h4 class='modal-title' id='H3'>Edit Data $t[nama_pemilih]</h4>
+                                                            <h4 class='modal-title' id='H3'> Data $t[nama_pegawai]</h4>
                                                         </div>
                                                                 <div class='box-body'>
-                                                                    <form action='edit.php?aksi=proseseditpemilih&id_pemilih=$t[id_pemilih]' method='post' enctype='multipart/form-data'>
+                                                                   
                                                                     <div class='form-group'>
                                                                         <label>Nama</label>
-                                                                        <input type='text' class='form-control' name='nama_pemilih' value='$t[nama_pemilih]' required='required' placeholder='Masukkan Nama ..'>
+                                                                        <input type='text' class='form-control' name='nama_pemilih' value='$t[nama_pegawai]' required='required' placeholder='Masukkan Nama ..'>
                                                                     </div>
                                                                     <div class='form-group'>
-                                                                        <label>nisn</label>
-                                                                        <input type='text' class='form-control' name='nisn' value='$t[nisn]' required='required' placeholder='Masukkan nisn ..'>
+                                                                        <label>tgl</label>
+                                                                        <input type='text' class='form-control' name='nisn' value='$t[tanggal_absensi_datang]' required='required' placeholder='Masukkan nisn ..'>
                                                                     </div>
                                                                     <div class='form-group'>
-                                                                        <label>No hp</label>
-                                                                        <input type='text' class='form-control' name='no_hp' value='$t[no_hp]' required='required'  placeholder='Masukkan no hp..'>
+                                                                        <label>jam</label>
+                                                                        <input type='text' class='form-control' name='no_hp' value='$t[jam_absensi_datang]' required='required'  placeholder='Masukkan no hp..'>
                                                                     </div>
                                                                     <div class='form-group'>
-                                                                        <label>Kelas</label>
-                                                                        <input type='text' class='form-control' name='kelas' value='$t[kelas]' required='required' placeholder='Masukkan kelas..'>
+                                                                        <label>status</label>
+                                                                        <input type='text' class='form-control' name='kelas' value='$t[status_hadir]' required='required' placeholder='Masukkan kelas..'>
                                                                     </div>
-                                                                    <div class='form-group'>
-                                                                        <input type='submit' class='btn btn-sm btn-primary' value='Simpan'>
-                                                                    </div>
-                                                                    </form>
+                                                                    
+                                                                    
                                                                 </div>
                                                     </div>
                                                 </div>
@@ -640,6 +641,14 @@ elseif($_GET['aksi']=='rekappresensi'){
                                                     </div>
                                                 </div>
                                                 <div class='col-md-6'>
+                                                <div class='card'>
+                                                    <div class='card-body'>
+                                                        <h5 class='card-title'>Status</h5>
+                                                        <p class='card-text'>$tx[status_hadir]</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div class='col-md-6'>
                                                     <div class='card'>
                                                         <div class='card-body'>
                                                             <h5 class='card-title'>Jam Presensi</h5>
@@ -651,7 +660,7 @@ elseif($_GET['aksi']=='rekappresensi'){
                                                     <div class='card'>
                                                         <div class='card-body'>
                                                             <h5 class='card-title'>Gambar</h5>
-                                                            <p class='card-text'><img src='../upload/$tx[gambar_datang]' alt='Gambar Modal' class='img-fluid'></p>
+                                                            <p class='card-text'><img src='../uploads/$tx[gambar_datang]' alt='Gambar Modal' class='img-fluid'></p>
                                                         </div>
                                                     </div>
                                                 </div>

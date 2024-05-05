@@ -84,12 +84,12 @@ echo"<div class='row'>
 				    ";
 			
 $no=0;
-$sqli = mysqli_query($koneksi,"SELECT id_pegawai, nama_pegawai, nik, tgl_lahir, (YEAR(CURDATE())-YEAR(tgl_lahir)) AS umur FROM pegawai");
+$sqli = mysqli_query($koneksi,"SELECT id_pegawai,kode_pegawai, nama_pegawai, nik, tgl_lahir, (YEAR(CURDATE())-YEAR(tgl_lahir)) AS umur FROM pegawai");
 while ($t=mysqli_fetch_array($sqli)){	
 $no++;
                                     echo"<tr>
 										<td>$no</td>
-                                            <td>$t[nama_pegawai] </td>
+                                            <td>$t[nama_pegawai] ($t[kode_pegawai]) </td>
                                             <td>$t[umur]</td>
 							<td><div class='btn-group'>
                       <button type='button' class='btn btn-info'>aksi</button>

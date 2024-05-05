@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 22 Mar 2024 pada 00.56
+-- Generation Time: 05 Mei 2024 pada 15.06
 -- Versi Server: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -40,7 +40,7 @@ CREATE TABLE `map` (
 --
 
 INSERT INTO `map` (`id_map`, `latitude`, `longitude`, `status`) VALUES
-(1, '-5.349745', '104.965183', 'aktif');
+(1, '-5.343558', '104.963722', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -64,9 +64,7 @@ CREATE TABLE `pegawai` (
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `kode_pegawai`, `nama_pegawai`, `status_pegawai`, `nik`, `tgl_lahir`, `jenis_kelamin`, `alamat`) VALUES
-(1, 'KR001', 'MARDIYANTO', 'P3K', '1820706109100034', '1991-06-10', 'Laki-Laki', ''),
-(3, 'KR002', 'WIDIANTO', 'P3K', '88927972', '0000-00-00', 'Laki-Laki', ''),
-(4, 'KR004', 'SUHARJO', 'PNS', '7167866', '1991-12-16', 'Laki-Laki', '');
+(1, 'KR001', 'MARDIYANTO', 'PNS', '18080', '2024-05-03', 'Laki-Laki', '');
 
 -- --------------------------------------------------------
 
@@ -80,15 +78,19 @@ CREATE TABLE `presensi_datang` (
   `tanggal_absensi_datang` date NOT NULL,
   `jam_absensi_datang` varchar(100) NOT NULL,
   `id_pegawai` varchar(100) NOT NULL,
-  `status_absensi_datang` varchar(100) NOT NULL
+  `status_absensi_datang` varchar(100) NOT NULL,
+  `status_absensi` varchar(100) DEFAULT NULL,
+  `status_hadir` varchar(100) DEFAULT NULL,
+  `latitude` varchar(100) DEFAULT NULL,
+  `longitude` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `presensi_datang`
 --
 
-INSERT INTO `presensi_datang` (`id_presensi_datang`, `gambar_datang`, `tanggal_absensi_datang`, `jam_absensi_datang`, `id_pegawai`, `status_absensi_datang`) VALUES
-(1, 'absen_1_1711062622.jpg', '2024-03-22', '06:10:22', '1', 'datang');
+INSERT INTO `presensi_datang` (`id_presensi_datang`, `gambar_datang`, `tanggal_absensi_datang`, `jam_absensi_datang`, `id_pegawai`, `status_absensi_datang`, `status_absensi`, `status_hadir`, `latitude`, `longitude`) VALUES
+(1, 'absen_1_1714911538.jpg', '2024-05-05', '19:18:58', '1', 'datang', 'pagi', 'hadir', '-5.3485219', '104.9681028');
 
 -- --------------------------------------------------------
 
@@ -102,8 +104,17 @@ CREATE TABLE `presensi_pulang` (
   `tanggal_absensi_pulang` date NOT NULL,
   `jam_absensi_pulang` varchar(100) NOT NULL,
   `id_pegawai` varchar(100) NOT NULL,
-  `status_absensi_pulang` varchar(100) NOT NULL
+  `status_absensi_pulang` varchar(100) NOT NULL,
+  `latitude` varchar(100) DEFAULT NULL,
+  `longitude` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `presensi_pulang`
+--
+
+INSERT INTO `presensi_pulang` (`id_presensi_pulang`, `gambar_pulang`, `tanggal_absensi_pulang`, `jam_absensi_pulang`, `id_pegawai`, `status_absensi_pulang`, `latitude`, `longitude`) VALUES
+(1, 'absen_1_1714911552.jpg', '2024-05-05', '19:19:12', '1', 'pulang', '-5.3485219', '104.9681028');
 
 -- --------------------------------------------------------
 
@@ -150,10 +161,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_nama`, `user_username`, `user_password`, `user_foto`) VALUES
-(1, 'Adminatun Jhony', 'admin', '21232f297a57a5a743894a0e4a801fc3', '482937136_avatar.png'),
-(10, 'aka', 'aka', 'c4ca4238a0b923820dcc509a6f75849b', '1869563217_ilustrasi-ikan-lele-1_169.jpeg'),
-(11, 'tes', '123', '202cb962ac59075b964b07152d234b70', ''),
-(12, 'bangsat', 'bangsat', '528f980649c80a7269402447b51e815a', '1638032220_17-52-06-IMG-20221008-WA0001.jpg');
+(1, 'Adminatun Jhony', 'admin', '21232f297a57a5a743894a0e4a801fc3', '482937136_avatar.png');
 
 --
 -- Indexes for dumped tables
@@ -208,7 +216,7 @@ ALTER TABLE `map`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pegawai` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `presensi_datang`
 --
@@ -218,7 +226,7 @@ ALTER TABLE `presensi_datang`
 -- AUTO_INCREMENT for table `presensi_pulang`
 --
 ALTER TABLE `presensi_pulang`
-  MODIFY `id_presensi_pulang` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_presensi_pulang` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `profil`
 --
@@ -228,7 +236,7 @@ ALTER TABLE `profil`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

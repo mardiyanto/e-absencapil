@@ -664,6 +664,14 @@ elseif($_GET['aksi']=='rekappresensi'){
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class='col-md-12'>
+                                                    <div class='card'>
+                                                        <div class='card-body'>
+                                                        <a href='detaillokasi.php?id_presensi_datang=$tx[id_presensi_datang]' class='btn btn-info' >MAP</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                             
                                                 </div>

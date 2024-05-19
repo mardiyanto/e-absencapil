@@ -15,14 +15,14 @@ elseif($_GET['aksi']=='datang'){
                   <div class="text-center"> 
                      <button type="button" class="btn btn-outline-success btn-lg"><?php echo "Sekarang Jam " . date("h:i:sa");?></button>
                       <!-- deteksi lokasi <p id="status"></p> </div>
-                        <form method='post' action='index.php?aksi=prosesdatang' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
+                        <form method='post' action='absen.php?aksi=prosesdatang' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
                                 <div class='modal-footer'><button type="submit" class="btn btn-primary">Submit</button></div>
                           </div>   
                         </form> -->
-                        <form method='post' action='index.php?aksi=prosesdatang' enctype='multipart/form-data' >
+                        <form method='post' action='absen.php?aksi=prosesdatang' enctype='multipart/form-data' >
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
@@ -57,7 +57,7 @@ if($cek > 0){
   $kode_pegawai= $data['kode_pegawai'];
   header("location:absendatang.php?id_pegawai=$id_pegawai");
 } else {
-  echo "<script>alert('Kode Kariawan Salah');window.location.href='index.php?aksi=datang'</script>";
+  echo "<script>alert('Kode Kariawan Salah');window.location.href='absen.php?aksi=datang'</script>";
 }
 
 }
@@ -73,14 +73,14 @@ elseif($_GET['aksi']=='pulang'){
                   <div class="text-center"> 
                      <button type="button" class="btn btn-outline-success btn-lg"><?php echo "Sekarang Jam " . date("h:i:sa");?></button>
                       <!-- <p id="status"></p></div>
-                        <form method='post' action='index.php?aksi=prosespulang1' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
+                        <form method='post' action='absen.php?aksi=prosespulang1' enctype='multipart/form-data' id="frmPresensi" style="display: none;">
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
                                 <div class='modal-footer'><button type="submit" class="btn btn-primary">Submit</button></div>
                           </div>   
                         </form> -->
-                        <form method='post' action='index.php?aksi=prosespulang' enctype='multipart/form-data' >
+                        <form method='post' action='absen.php?aksi=prosespulang' enctype='multipart/form-data' >
                           <div class='form-group'>
                               <label>Kode Kariawan</label>
                                <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
@@ -118,7 +118,7 @@ if($cek > 0){
   $kode_pegawai= $data['kode_pegawai'];
   header("location:absenpulang.php?id_pegawai=$id_pegawai");
 } else {
-  echo "<script>alert('Kode Kariawan Salah');window.location.href='index.php?aksi=pulang'</script>";
+  echo "<script>alert('Kode Kariawan Salah');window.location.href='absen.php?aksi=pulang'</script>";
 }
 
 }
@@ -134,7 +134,7 @@ elseif($_GET['aksi']=='login'){
                     <h6 class="m-0 font-weight-bold text-primary">Isikan Kode Kariawan</h6>
                 </div>
                 <div class="card-body">
-                    <form method='post' action='index.php?aksi=proseslogin' enctype='multipart/form-data'>
+                    <form method='post' action='absen.php?aksi=proseslogin' enctype='multipart/form-data'>
                         <div class='form-group'>
                             <label>Kode Kariawan</label>
                             <input type='text' class='form-control' name='kode_pegawai' id='kode_pegawai' /><br>
@@ -160,13 +160,15 @@ elseif($_GET['aksi']=='proseslogin'){
 		$_SESSION['nama_pegawai'] = $data['nama_pegawai'];
 		header("location:absen.php");
 	}else{
-		echo "<script>alert('Kode Kariawan Salah');window.location.href='index.php?aksi=login'</script>";
+		echo "<script>alert('Kode Kariawan Salah');window.location.href='absen.php?aksi=login'</script>";
 	}
   ?>
 
 <?php } 
-elseif($_GET['aksi']=='ok'){ 
-  
+elseif($_GET['aksi']=='inputhubungi'){ 
+  mysqli_query($koneksi,"insert into kritik (nama,email,pesan) values ('$_POST[nama]','$_POST[email]','$_POST[pesan]')");  
+  echo "<script>window.alert('terimakasih telah meninggalkan pesan di sini');
+  window.location=('index.php')</script>";
   ?>
 
 <?php } ?>

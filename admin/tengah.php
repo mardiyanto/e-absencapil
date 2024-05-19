@@ -78,7 +78,7 @@ echo"<div class='row'>
 										<th>No</th>
                                             <th>Nama pegawai</th>
                                             <th>Umur</th>
-                                            <th>NIP</th>		  
+                                            <th>AKSI</th>		  
                                       </tr></thead>
                     <tbody>
 				    ";
@@ -801,252 +801,7 @@ elseif($_GET['aksi']=='detailrekap'){
     </div>
    </div>";			
 }  
- elseif($_GET['aksi']=='editpaslon'){
-        $tebaru=mysqli_query($koneksi," SELECT * FROM paslon WHERE id_paslon=$_GET[id_paslon] ");
-        $t=mysqli_fetch_array($tebaru);
-        echo"
-        <div class='row'>
-                        <div class='col-lg-12'>
-                            <div class='panel panel-default'>
-                                <div class='panel-heading'>EDIT
-                                </div>
-                                <div class='panel-body'>
-                                <img src='../foto/paslon/$t[foto]' alt=''>
-        <form id='form1'  method='post' enctype='multipart/form-data' action='edit.php?aksi=proseseditpaslon&id_paslon=$_GET[id_paslon]'>
-               <div class='form-grup'>
-                <label>Nama paslon</label>
-                <input type='text' class='form-control' value='$t[nama_paslon]' name='nama_paslon'/><br>
-                <label>Foto</label>
-                <input type='file' name='foto_baru' accept='image/*'><br>
-                <a href='index.php?aksi=kategori' class='btn btn-default' data-dismiss='modal'>kembali</a>
-                                                    <button type='submit' class='btn btn-primary'>Save </button>
-                                                </div> </div>
-            </form></div> </div></div> 
-        ";	
-}
-elseif($_GET['aksi']=='suara'){
-    if (isset($_GET['error'])) {
-        $error_message = $_GET['error'];
-        echo "<div id='errorAlert' class='alert alert-danger' role='alert'>$error_message</div>";
-        echo "<script>
-                setTimeout(function() {
-                    document.getElementById('errorAlert').style.display='none';
-                }, 5000); // Hilangkan setelah 5 detik
-              </script>";
-    }  
-    echo"
-    <div class='row'>
-    <div class='col-lg-12'>
-            <div class='panel panel-default'>
-                <div class='panel-heading'><a href='hapus.php?aksi=hapussemuadata' type='submit' class='btn btn-primary btn-block'><b>KOSONGKAN DATA</b></a></div>
-            </div>
-        </div>";
-    $tebaru=mysqli_query($koneksi," SELECT * FROM paslon ORDER BY id_paslon DESC ");
-    while ($t=mysqli_fetch_array($tebaru)){
-        $sql = "SELECT id_paslon, SUM(suara_sah) AS total_suara_sah FROM suara WHERE id_paslon=$t[id_paslon] GROUP BY id_paslon";
-        $result = mysqli_query($koneksi, $sql);
-        $row = mysqli_fetch_assoc($result);
-            echo"<div class='col-md-3'>
-              <!-- Profile Image -->
-              <div class='box box-primary'>
-                <div class='box-body box-profile'>
-                  <img class='profile-user-img img-responsive' src='../foto/paslon/$t[foto]'>
-                  <h3 class='profile-username text-center'>$t[nama_paslon]</h3>
-                  <p class='text-muted text-center'>CALON KETUA OSIS $k_k[nama]</p>
 
-                  <ul class='list-group list-group-unbordered'>
-                    <li class='list-group-item'>
-                      <b>Perolehan Suara</b> <a class='pull-right'>$row[total_suara_sah]</a>
-                    </li>
-                    <li class='list-group-item'>
-                      <b>Profil</b>  <button class='pull-right'>Lihat</button>
-                    </li>
-                    <li class='list-group-item'>
-                      <b>Visi Misi</b> <button class='pull-right'>Lihat</button>
-                    </li>
-                  </ul>
-                  <form id='form1' method='post' action='input.php?aksi=inputsuara'>
-                  <input type='hidden'  name='id_paslon' value='$t[id_paslon]'/>
-                  <input type='hidden' name='id_pemilih' value='1'/>
-                  <input type='hidden' name='suara_sah' value='1'/>
-                  <button type='submit' class='btn btn-primary btn-block'><b>PILIH</b></button>
-                  </form>  
-      
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col -->";
-        }
-                                        echo"
-    </div>
-    ";
-}
-elseif($_GET['aksi']=='suara1'){
-    echo"
-    <div class='row'>
-        <div class='col-lg-12'>
-            <div class='panel panel-default'>
-                <div class='panel-heading'>DATA SUARA</div>
-                    <div class='panel-body'>
-                    ISI
-                    </div> 
-            </div>
-        </div>
-    </div>
-    ";
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-elseif($_GET['aksi']=='inputsuara'){
-                $tebaru=mysqli_query($koneksi," SELECT * FROM tps,kecamatan,desa WHERE tps.id_kecamatan=kecamatan.id_kecamatan and tps.id_desa=desa.id_desa and tps.id_tps=$_GET[id_tps] ");
-                $t=mysqli_fetch_array($tebaru);
-                echo"
-                <div class='row'>
-                                <div class='col-lg-12'>
-                                    <div class='panel panel-default'>
-                                        <div class='panel-heading'>  $t[nama_kecamatan] TPS $t[no_tps]
-                                        </div>
-                                        <div class='panel-body'>
-                <form id='form1'  method='post' action='input.php?aksi=inputsuarapaslon'>
-                <div class='form-group'>
-                                             
-                <label>Pilih kecamatan</label>
-                <select class='form-control select2' style='width: 100%;' name=id_kecamatan>
-                <option value='$t[id_kecamatan]' selected>$t[nama_kecamatan] </option>"; 
-                 $sql=mysqli_query($koneksi,"SELECT * FROM kecamatan ORDER BY id_kecamatan");
-                 while ($c=mysqli_fetch_array($sql))
-                 {
-                    echo "<option value=$c[id_kecamatan]>$c[nama_kecamatan]</option>";
-                 }
-                    echo "
-                </select><br><br>
-                <label>Pilih desa/Keluarahan</label>
-                <select class='form-control select2' style='width: 100%;' name=id_desa>
-                <option value='$t[id_desa]' selected>$t[nama_desa]</option>"; 
-                 $sql=mysqli_query($koneksi,"SELECT * FROM desa ORDER BY id_desa");
-                 while ($c=mysqli_fetch_array($sql))
-                 {
-                    echo "<option value=$c[id_desa]>$c[nama_desa]</option>";
-                 }
-                    echo "
-                </select><br><br>
-                <label>Pilih Paslon</label>
-                <select class='form-control select2' style='width: 100%;' name=id_paslon>
-                "; 
-                 $sql=mysqli_query($koneksi,"SELECT * FROM paslon ORDER BY id_paslon");
-                 while ($c=mysqli_fetch_array($sql))
-                 {
-                    echo "<option value=$c[id_paslon]>$c[nama_paslon]</option>";
-                 }
-                    echo "
-                </select><br><br>
-                <input type='hidden' class='form-control' value='$t[id_tps]' name='id_tps'/><br>
-                <label>Suara Sah</label>
-                <input type='number' class='form-control' name='suara_sah'/><br>
-                <label>Suara tidak Sah</label>
-                <input type='number' class='form-control' value='0' name='suara_rusak'/><br>
-                                                            
-                                              
-                        
-                        <div class='modal-footer'>
-                                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                                            <button type='submit' class='btn btn-primary'>Save </button>
-                                                        </div> </div>
-                    </form></div> </div></div></div>
-                ";
-}
-elseif($_GET['aksi']=='inputsuaratps'){
- include"kecamatan.php"; 
-}   
-elseif($_GET['aksi']=='inputdata'){
-    echo"
-    <div class='col-lg-12'>
-                        <div class='panel panel-default'>
-                            <div class='panel-heading'>
-                Data suara
-                            </div>
-                            <div class='panel-body'>
-                                <div class='tab-content'>
-                                    <div class='tab-pane fade in active' id='home-pills'>
-                                        <h4>Data suara </h4>
-                                        <a href='index.php?aksi=tps' class='btn btn-info' >DATA TPS</a>
-                                        <a href='index.php?aksi=inputsuaratps' class='btn btn-info' >TAMBAH DATA SUARA PASLON</a>
-                       <div class='panel-body'>
-                                <div class='table-responsive'>
-                                    <table id='example1' class='table table-bordered table-striped'>
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama</th>
-                                                <th>TPS</th>
-                                                <th>Suara sah</th>
-                                                <th>Suara rusak</th>
-                                                <th>aksi</th>
-                                            </tr>
-                                        </thead><tbody>
-                        ";
-                        $no=0;
-                    $tebaru=mysqli_query($koneksi," SELECT * FROM suara,paslon,tps,desa,kecamatan WHERE suara.id_paslon=paslon.id_paslon 
-                    and suara.id_tps=tps.id_tps 
-                    and tps.id_desa=desa.id_desa
-                    and tps.id_kecamatan=kecamatan.id_kecamatan
-                    ORDER BY suara.id_suara DESC ");
-    while ($t=mysqli_fetch_array($tebaru)){
-                  
-    $no++;  
-   $status= $t['status'];  
-    $warna_tombol = ($status == 'sudah') ? 'btn-success' : 'btn-danger';
-                                        echo"
-                                            <tr>
-                                                <td>$no</td>
-                                                <td>$t[nama_paslon]</td>
-                                                <td>$t[nama_kecamatan], $t[nama_desa] TPS $t[no_tps]</td>
-                                                <td>$t[suara_sah]</td>
-                                                <td>$t[suara_rusak]</td>
-                                                <td><a href='edit.php?aksi=prosesupdatesuara&id_tps=$t[id_tps]' class='btn $warna_tombol'>status</a> 
-                                                <a href='index.php?aksi=editsuara&id_suara=$t[id_suara]' class='btn $warna_tombol'>EDIT</a> 
-                                                <a href='hapus.php?aksi=hapussuara&id_suara=$t[id_suara]' class='btn btn-danger' onclick=\"return confirm ('Apakah yakin ingin menghapus $t[nama_desa] $t[no_tps] ?')\">hapus</a></td>
-                                            </tr>
-                                           
-                                        ";
-    }
-                                    echo"</tbody></table>
-                                </div>
-                            </div>
-                     </div>
-                     
-       </div>
-                                </div>
-                            </div>
-                        </div>
-               
-    ";}
-
-elseif($_GET['aksi']=='editsuara'){
-    $tebaru=mysqli_query($koneksi," SELECT * FROM suara WHERE id_suara=$_GET[id_suara] ");
-    $t=mysqli_fetch_array($tebaru);
-    echo"
-    <div class='row'>
-                    <div class='col-lg-12'>
-                        <div class='panel panel-default'>
-                            <div class='panel-heading'> suara $t[id_suara]
-                            </div>
-                            <div class='panel-body'>
-    <form id='form1'  method='post' action='edit.php?aksi=proseseditsuara&id_suara=$t[id_suara]'>
-    <div class='form-group'>
-    <input type='hidden' class='form-control' value='$t[id_tps]' name='id_tps'/><br>
-    <label>Suara Sah</label>
-    <input type='number' class='form-control' value='$t[suara_sah]' name='suara_sah'/><br>
-    <label>Suara tidak Sah</label>
-    <input type='number' class='form-control' value='0' name='suara_rusak'/><br>
-                                                
-                                  
-            
-            <div class='modal-footer'>
-                                                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                                <button type='submit' class='btn btn-primary'>Save </button>
-                                            </div> </div>
-        </form></div> </div></div></div>
-    ";
-}
 elseif($_GET['aksi']=='profil'){
 echo"			
 	<div class='row'>
@@ -1292,48 +1047,48 @@ echo"
 }
 
 
-elseif($_GET['aksi']=='menu'){
+elseif($_GET['aksi']=='kritik'){
 echo"<div class='row'>
                 <div class='col-lg-12'>
                     <div class='panel panel-default'>
                         <div class='panel-heading'>INFORMASI 
                         </div>
                         <div class='panel-body'>	
-			<button class='btn btn-info' data-toggle='modal' data-target='#uiModal'>
-                                Tambah Data
-                            </button><br><br>
+			
                            	<div class='table-responsive'>		
 	 <table id='example1' class='table table-bordered table-striped'>
                                     <thead>
                                         <tr>
 										<th>No</th>
-                                            <th>Nama Menu</th>
-                                            <th>Link</th>	
+                                            <th>Nama</th>
+                                            <th>email</th>	
                                             <th>Status</th>		  
                                       </tr></thead>
                     <tbody>
 				    ";
 			
 $no=0;
-$tebaru=mysqli_query($koneksi," SELECT * FROM menu ");
+$tebaru=mysqli_query($koneksi," SELECT * FROM kritik ");
 while ($t=mysqli_fetch_array($tebaru)){	
 $no++;
                                     echo"<tr>
 										<td>$no</td>
-                                        <td>$t[nama_menu]</td>
-                                        <td>$t[link]</td>
-							<td><div class='btn-group'>
-                      <button type='button' class='btn btn-info'>$t[status]</button>
-                      <button type='button' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>
-                        <span class='caret'></span>
-                        <span class='sr-only'>Toggle Dropdown</span>
-                      </button>
-                      <ul class='dropdown-menu' role='menu'>
-                        <li><a href='index.php?aksi=editmenu&id_menu=$t[id_menu]' title='Edit'><i class='fa fa-pencil'></i>edit</a></li>
-						<li><a href='hapus.php?aksi=hapusmenu&id_menu=$t[id_menu]' onclick=\"return confirm ('Apakah yakin ingin menghapus $t[nama_menu] ?')\" title='Hapus'><i class='fa fa-remove'></i>hapus</li>
-                        </ul>
-                    </div></td>
-                                        </tr>";
+                                        <td>$t[nama]</td>
+                                        <td>$t[email]</td>
+							<td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal$t[id_kritik]'>Detail</button></td>
+                                        </tr>
+                                        <div class='modal fade' id='uiModal$t[id_kritik]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                                        </div>
+                                        <div class='modal-body'>
+                                          <p>$t[pesan]</p>
+                                        </div>
+                                </div>
+                            </div>
+                    </div>";
 }
                                   echo"  </tbody>
                                 </table>
@@ -1343,48 +1098,7 @@ $no++;
                 </div>
                </div>		
 	
-	  ";			
-
-////////////////input admin			
-
-echo"			
-<div class='col-lg-12'>
-                        <div class='modal fade' id='uiModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-                                <div class='modal-dialog'>
-                                    <div class='modal-content'>
-                                        <div class='modal-header'>
-                                            <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                                            <h4 class='modal-title' id='H3'>Input Data </h4>
-                                        </div>
-                                        <div class='modal-body'>
-                                           <form role='form' method='post' action='input.php?aksi=inputmenu'>
-                                            <div class='form-group'>
-                                            <label>Nama Menu</label>
-						 <input type='text' class='form-control' name='nama_menu'/><br>
-					<label>Link Menu</label>
-						<input type='text' class='form-control' name='link'/><br>
-                        <label>Link Dasbord</label>
-						<input type='text' class='form-control' name='link_b'/><br>
-						<label>Status Menu</label>
-						<input type='text' class='form-control' name='status'/><br>
-                        <label>Icon</label>
-                        <input type='text' class='form-control' name='icon_menu'/><br>
-                        <label>Status Aktif</label>
-                        <select class='form-control select2' style='width: 100%;' name=aktif>
-                        <option value='1' selected>Pilih</option> 
-                        <option value='Y'>Y</option>
-                        <option value='N'>N</option>
-                    </select><br>
-                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                            <button type='submit' class='btn btn-primary'>Save </button>
-                                        </div>
-					</form>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-		    </div>			
-"; 
+	  ";			 
 }
 
 

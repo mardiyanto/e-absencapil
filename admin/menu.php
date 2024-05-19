@@ -68,9 +68,11 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="index.php?aksi=pegawai">Pegawai</a>
+
                         <a class="collapse-item" href="index.php?aksi=presensi">Absensi</a>
                         <a class="collapse-item" href="index.php?aksi=rekappresensi">Rekap Absensi</a>
                         <a class="collapse-item" href="index.php?aksi=map">Map</a>
+                        <a class="collapse-item" href="index.php?aksi=kritik">Kritik</a>
                     </div>
                 </div>
             </li>

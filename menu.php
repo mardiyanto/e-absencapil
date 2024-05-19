@@ -6,11 +6,11 @@
                     <i class="fas fa-home fa-fw"></i>
                     <span>Home</span>
                 </a>
-                <a class="nav-link collapsed" href="index.php?aksi=datang" >
+                <a class="nav-link collapsed" href="absen.php?aksi=datang" >
                     <i class="fas fa-camera-retro fa-lg"></i>
                     <span>Datang</span>
                 </a>
-                <a class="nav-link collapsed" href="index.php?aksi=pulang">
+                <a class="nav-link collapsed" href="absen.php?aksi=pulang">
                     <i class="fas fa-battery-half"></i>
                     <span>Pulang</span>
                 </a>
